@@ -1,0 +1,27 @@
+<!-- polls/templates/polls/confirm_order.html -->
+
+<h1>주문 내역</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>상품</th>
+      <th>수량</th>
+      <th>가격</th>
+      <th>총 가격</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in orders %}
+    <tr>
+      <td>{{ order.product }}</td>
+      <td>{{ order.quantity }}</td>
+      <td>${{ order.price }}</td>
+      <td>${{ order.total_price }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p>총 주문 가격: ${{ total_price_all }}</p>
+
