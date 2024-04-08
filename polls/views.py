@@ -18,7 +18,6 @@ def results(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     return render(request, 'polls/results.html', {'question': question})
 
-@login_required
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     
@@ -27,17 +26,16 @@ def vote(request, question_id):
     selected_choice.votes += 1
     selected_choice.save()
    
-     #else:
+    return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+    #else:
        
-        # Create an order only if the user is authenticated
-       # if request.user.is_authenticated:
-       #     quantity = 1  # Assuming quantity is always 1 for a vote
-       #     price = 0  # You might need to set the price
+    #Create an order only if the user is authenticated
+    #if request.user.is_authenticated:
+    #        quantity = 1  # Assuming quantity is always 1 for a vote
+    #        price = 0  # You might need to set the price
     #         total_price = price * quantity
     #         Order.objects.create(question=question, user=request.user, quantity=quantity, price=price, total_price=total_price)
-    #     return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
 
-@login_required
 def order(request):
     if request.method == 'POST':
         product_id = request.POST.get('product_id')
@@ -51,7 +49,6 @@ def order(request):
         products = Product.objects.all()
         return render(request, 'polls/order.html', {'products': products})
 
-@login_required
 def confirm_order(request):
     # 현재 로그인된 사용자의 주문 목록을 가져옵니다.
     orders = Order.objects.filter(user=request.user)
